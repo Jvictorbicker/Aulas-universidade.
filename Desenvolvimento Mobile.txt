@@ -1,0 +1,77 @@
+AULA 1
+ 
+Introdução á Flutter
+
+- Framework de desenvolvimento, que utiliza a linguagem de programação DART, baseada em 3 pilares
+
+- Desenvolvimento rápido 
+
+- interfaces elegantes
+
+- Performance Nativa
+
+* Criado e mantido pela google, com mais de 170 componentes para seus utilizadores.
+
+* Para desenvolvimento de aplicativos nativos para android, IOS, web, windowns, Linux, utilizando o mesmo código fonte.
+
+* Cross-platform
+
+DART - linguagem morderna, com recursos de tipagem de compilação
+
+- Jet -> (Just in time) Traduz o código para a linguagem da maquina no momento da execução.
+
+- Aut -> (Ahead Of Time) antes da aplicação ser executada, código fonte é traduzido para linguagem de maquina
+
+* DART Induz uma VM DART para produzir o código para as plataformas nativas.
+
+Recursos
+
+- Com Jit, temos o Hot reload:
+	* Alterações no código são repartidas sem perder o estado da aplicação.
+- Hot start: aplicativo é recompilado e reiniciado por completo
+
+- ótimo para desenvolvimento e testes.
+
+-----------------------------------------------------------------------------------------------
+
+AULA 2
+
+Flutter
+- Widget: elemento que descreve uma parte da interface (componente)
+- ⁠flutter consta com interface através de widgets
+- ⁠um widget pode conter outros widgets, formando uma árvore de widgets
+- child: representa um único filho
+- children: representa N filhos
+- widgets pequenos são ordenados para formar maiores
+
+exemplos
+scaffold
+row
+text.  colum
+icon.  icon
+
+center(child: [
+Text("ola"),
+text("mundo"),
+]
+)
+
+stateless widgets
+- sem estado, nao precisa manter informações que mudam durante a execução 
+⁠stateful widget
+
+- ⁠com estado, a interface precisa refletir mudanças 
+Estado muda -> flutter reconstrói
+
+setstate() -> chama build!!!
+
+widgets de layout
+row -> [a b c] 
+column ~> [
+	  a
+	  b
+	  c
+	  ]
+ conteiner: criar caixa com estilo, so pode possuir 1 filho
+ sizedbox: sem estilo, define altura,largura, espaçamento 
+ padding: cria componente intern

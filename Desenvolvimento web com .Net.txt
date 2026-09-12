@@ -1,0 +1,198 @@
+AULA 1
+
+Pipeline HTTP e endpoints -> conceitos
+
+Cliente -> Servidor -> cliente
+
+    Request HTTP    Respponse HTTP
+
+HTTP: é um protocolo de comunicação utilizado para a troca de recursos entre cliente e servidores.
+
+Request: é uma requisição normalmente contendo método, URL/ROTA e headers.
+
+Response: mensagem devolvida pelo servidor ao cliente.
+
+Body: conteúdo enviado ou retornado no corpo da mensagem
+
+Endpoint: ponto de aplicação associado ao atendimento de determinada requisição
+
+Pipeline: é a sequência de componentes que participa do processamento de uma requisição.
+
+Middleware: é um componente do pipeline responsável por tratar requisições e respostas.
+
+Proteamento: é o mecanismo que relaciona uma requisição HTTP á um endpoint
+
+-----------------------------------------------------------------------------------------------------
+
+AULA 2
+
+API, WEB SERVICES E WEBAPI
+
+API -> Conjunto de rotinas e padrões estabelecidos e documentados por uma aplicação para que outras
+aplicações consigam utilizar suas funcionalidades sem conhecer detalhes de sua implementação.
+
+Web Service -> são conjuntos de métodos invocados por outras aplicações utilizando tecnologias web
+sendo uma solução utilizada na integração do sistema e na comunicação entre aplicações distintas.
+
+Web API -> é uma api na internet, com um conjunto de serviços expostos via web para realizar a integração
+da aplicação com diversos tipos de clientes (web, mobile, desktop, etc)
+
+Vantagens:
+
+API -> permite a integração do sistemas, controlam o acesso facilmente
+
+Web Services -> estão operados no html e no protocolo SOAP
+
+----------------------------------------------------------------------------------------------------
+
+AULA 3
+
+3 MVC e razor no ASP.NET
+
+O padrão MVC (Model-View-Controller) é um dos principais modelos utilizados no desenvolvimento de 
+aplicações web com o ASP.NET, Seu objetivo é organizar a aplicação em responsabilidade bem definidos,
+evitando que regras de negócios, interface e processamento de requisição fiquem concentrados no mesmo código.
+
+O Razor é a tecnologia de visualização utilizada para criar paginas HTML dinâmicas. Ele permite combinar o código C#
+com HTML, utilizar arquivos HTML.
+
+Usuário -> Requisição HTTP -> Roteamento -> Controller -> Model -> View Razor.
+
+Vantagens dessa separação:
+- Manutenção
+- Testes
+- Reutilização
+- Evolução do sistema
+
+Controller: é o responsável por receber e processar as requisições HTTP através das actions
+
+Public IActionResultDetalhes(int id) {
+return view(id);
+}
+
+Validação com data anotations
+
+São atributos adicionados a propriedades dos models
+Algumas das principais data anotations
+
+Atributo  - finalidade
+[required] - campo obrigatorio
+[Stringlength] - limita o tamanho do texto
+[minlength] - Define o tamanho minimo
+[maxlength] - tamanho maximo
+[range] - intervalo numerico
+[emailadress] - valida e-mail
+[phone] - valida telefone
+
+public class Aluno {
+[required (error Message = "informe o nome")]
+public string nome {get; set;}
+
+-----------------------------------------------------------------------
+
+Aula 4
+
+Mensagens de validação
+
+As mensagens de validação podem ser apresentadas diretamente na view:
+
+@Model aluno
+
+<form asp-action="criar" method="post">
+	<div>
+		<label asp-for="nome"></label>
+		<input asp-for="nome">
+		<span asp-validatiomn-for"nome"/></span>
+	</div>
+	
+Explicando:
+
+asp-validation-for= "nome" -> esses recursos são tag helpers que são recursos do asp.net core 
+que permitem utilizar atributos especiais diretamente em elementos html
+
+eles facilitam a criação de interfaces que precisam conversar com controllers e models.
+
+model -> data annotations
+view(html) -> tag helpers
+
+-> views
+
+as views são responsáveis pela apresentação dos dados aos usuários.
+uma view pode declarar explicitamente qual model espera receber: @model aluno
+
+layouts: 
+
+reutilização do código;
+padronização visual;
+redução de código duplicado;
+
+portrails -> pequenas áreas reutilizáveis
+
+<main>
+	@renderbody()
+</main>
+
+<partial name="mensagem"
+	model="cadastro reutilizado com sucesso">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

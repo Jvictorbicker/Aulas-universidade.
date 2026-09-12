@@ -1,0 +1,479 @@
+AULA 1
+
+* T-SQL
+
+É a extensão da Microsoft para o SQL SERVER
+
+Amplia o padrão SQL com recursos de programação procedural, permitindo
+controlar como as operações não executadas passo a passo
+
+* Variáveis
+
+* Expressões condicionais
+
+* Controle de reputações
+
+* Cursores
+
+* Tratamento de erros
+
+* functions
+
+* Stored procedures
+
+* Triggers
+
+--------------------------------------
+
+Variáveis 
+
+* Começa com @
+
+* Utiliza o DECLARE, para criar
+
+* Utiliza SET e SELECT para atribuir valor
+
+Ex: DECLARE @TABELA INT = 10;
+    DECLARE @TABELA DATETIME = GETDATE();
+
+--------------------------------------
+
+Lotes
+
+* Execuções de lotes (batches)
+
+* Comando GO
+
+* GO, Não é SQL -> Update para enviar um bloco
+	
+--------------------------------------
+
+Exemplo 1
+
+GO
+DECLARE @NomePais VARCHAR(100);
+SELECT @NomePais = PaisNome
+FROM PAIS
+WHERE PaisCod = 1;
+
+print("lote 1")
+print("o pais selecionado foi: '+@NomePais")
+
+-----------------------------------------
+
+Aula 2
+
+Condicional
+
+	IF
+
+* O comando IF avalia uma condição booleana
+* Se a condição for verdadeira, e o comando abaixo for executado 
+
+Ex1:
+
+DECLARE @quantidadeProdutos INT;
+SELECT @QuantidadeProdutos = COUNT(ProdCod)
+FROM PRODUTO;
+
+IF @QuantidadeProdutos < 10
+	PRINT 'estoque baixo';
+
+- quando precisa de mais linhas, uso bloco com BEGIN e END
+
+IF @QuantidadeProdutos < 10
+BEGIN
+	print 'Estoque baixo'
+	print 'verificar tabela de deferidos'
+END
+
+IF..ELSE
+
+Ex2:
+
+DECLARE @CodPedido INT = 5;
+DECLARE @ValorPedido DECIMAL (16, 21)
+SELECT @ValorPedido = PedidoValorTotal
+FROM PEDIDO
+WHERE PedidoNum = @CodPedido,
+IF @ValorPedido > 500.00
+	PRINT('Pedido de alto valor')
+ELSE
+	PRINT('Pedido normal')
+
+IF...ELSE
+
+DECLARE @CodCidade INT = 1,
+DECLARE @SiglaEstado VARCHAR(2)
+SELECT @SiglaEstado = UF.UFSigla
+FROM CIDADE C, UNIDADE_FEDERATIVA UF
+WHERE C.UfSigla = UF.Ufsigla
+AND C.CidCod = @CodCidade
+
+IF @SiglaEstado = 'SP'
+	PRINT 'ir para SP'
+ELSE IF @SiglaEstado = 'RJ'
+	PRINT 'ir para RJ'
+ELSE 
+PRINT 'ir para brasilia'
+
+
+Ex4
+
+DECLARE @StatusPedido VARCHAR(50)
+SET @StatusPedido = IF (@ValorPedido > 500.00, 'Pedido de valor alto', 'Pedido Normal'),
+PRINT 'Classificação do pedido' + @StatusPedido,
+
+* Expressão CASE Avalia uma lista de possibilidades
+
+Ex5
+
+DECLARE @SIGLAESTADO VARCHAR(2) = 'SP',
+DECLARE @REGIAO VARCHAR (30),
+SET @REGIAO = CASE @SIGLAESTADO
+WHEN 'SP' THEN 'SUDESTE'
+WHEN 'RJ' THEN 'SUDESTE'
+WHEN 'PR' THEN 'SUL'
+ELSE 'OUTRA REGIAO'
+END;
+
+---------------------------------------------------------------------
+
+AULA 3
+
+Estrutura de repetição
+
+* comando básico While
+
+while (condição).
+
+ex1
+
+DECLARE @contador INT = 1;
+WHILE (@CONTADOR <= 5)
+BEGIN
+   PRINT 'essa é a repetição numero: '
+   + cast(@contador AS VARCHAR);
+   SET @contador = @contador + 1;
+END
+PRINT 'fim do loop';
+
+* entrar loop infinito
+
+-> no SQL Server irá rodar até travar e ser cancelado manualmente
+
+* controle de LOOP 
+-BREAK
+
+  interrompe e sai imediatamente sem testar a condição do while
+
+ex2
+
+DECLARE @contador INT = 1;
+WHILE (@contador <= 10)
+BEGIN
+  IF (@contador = 6)
+  BEGIN
+    PRINT 'parar aqui';
+    BREAK;
+  END
+  PRINT 'processando item' + CAST(@contador as VARCHAR);
+  SET @contador = @contador + 1;
+END
+PRINT 'fora do loop';
+
+-continue
+
+* ignora o que ver avanca e volta para testar a condição
++ sempre fazer o ineremento antes para evitar loop
+
+ex3
+
+DECLARE @contador INT = 0;
+WHILE (@contador < 6)
+BEGIN
+  SET @contador = @contador + 1;
+  IF (@contador % 2 =0)
+  BEGIN
+    PRINT 'numero' + CAST(@contador AS VARCHAR) + 'é par';
+    CONTINUE;
+  END
+  PRINT 'esse é impar' + CAST(@contador AS VARCHAR);
+END
+
+---------------------------------------------------------------
+
+Aula 4
+
+Cursores 
+
+* Por padrão, o SGBD Relacional trabalha como conceito de conjutos 
+ou self-based.
+
+* Quando é executado com SELECT, o motor de BD processa e devolve todas
+as linhas de uma vez só
+
+* Um cursor quebra em paradigma permitindo que o banco mude para o modelo
+iterativo ou Row-by-Row
+
+* Funciona como um ponteiro logico que navega pelo resultado de uma consulta,
+permitindo que seja processado uma linha por vez.
+
+Para que serve?
+
+* Regras de negocio linha a linha: quando a regra de um registro depende de cálculo complexo
+que variam a cada linha 
+
+ex: calcular o saldo devedor histórico de um cliente com base de dados
+
+* processamentos procedures sequenciais: disparar ações externos ou rotinas customizadas 
+para cada registro encontrado.
+
+ex: rodar o processamento da folha de pagamento enviando uma requisição por funcionário
+
+* integrações e migrações: varredura de dados antigos para tratamento ou auditoria
+antes de mover para outra tabela.
+
+Importante
+
+* O processamento linha por linha é muito mais pesado que o processamento em conjunto
+
+* Cursores devem ser usados com sabedoria, apenas quando comandos SQL tradicionais 
+(UPDATE, INSERT) não forem suficientes.
+
+* Ciclo de vida
+
+1) DECLARE CURSOS: associar o cursor a uma instrução SELECT. É aqui que definimos quais dados serão varridos
+2) OPEN: Executa a consulta vinculada e popular o cursor na memoria do servidor.
+ O ponteiro e posicionado logo antes da primeira linha
+3) FETCH NEXT avança o ponteiro para a próxima linha disponível e extrai seus valores,
+copiando para variáveis locais
+4) CLOSE: fecha o cursor ativo. ele limpa os dados da memória, mas mantém a estrutura de cursor disponível
+caso seja necessário abrir(open) novamente.
+5) dealocate, destrói definitivamente a estrutura do cursor.
+					(YES)
+DECLARE -> OPEN -> FETCH  -> IS EMPTY -> CLOSE -> DEALOCATE  
+				(no)  |
+				      V
+				    FETCH
+variável global de controle
+-> @@FETCH_STATUS
+retorna o status do ultimo comando fetch executado
+
+0: executou com sucesso e uma linha for retornada
+-1: comando falhou ou o cursor chegou ao fim do conjunto de dados
+-2: a linha buscada foi deletada ou indisponível
+
+DECLARE @nomecidade VARCHAR(100),
+DECLARE @siglaestado varchar(2),
+
+DECLARE cursor_cidade CURSOR FOR
+	SELECT C.cidnome, UF.ufsigla
+	FROM CIDADE C, UNIDADE_FEDERATIVA UF
+	WHERE C.ufsigla = UF.ufsigla
+	OPEN cursor cidade;
+	
+	FETCH NEXT FROM cursor cidade INTO @nomecidade, @siglaestado
+	WHILE @@fetch_status = 0
+	BEGIN
+	PRINT 'cidade: ' + @nomecidade + 'estado: ' + @siglaestado;
+	FETCH NEXT FROM cursor_cidade INTO @nomecidade, @siglaestado;
+	END
+CLOSE cursor cidades;
+DEALLOCATE cursor cidades;
+
+-----------------------------------------------------------------------------
+
+cursores aninhados
+
+* Um cursor aninhado é a forma técnica de declarar e executar um cursor(filho) dentro
+do bloco de execução de outro cursor
+
+-essa abordagem é utilizada sempre que precisamos resolver regras de negocio que envolvem
+relacionamento 1 para N, onde queremos tratar o registro principal e processar seus registros
+dependentes.
+
+ex:
+
+	estado -> cidades
+	cliente -> pedidos
+	pedidos -> lista de produto
+
+
+DECLARE @idcliente INT, @Nomecliente VARCHAR(100);
+DECLARE @numpedido INT, @valorpedido decimal(16,2);
+DECLARE @totalgeralcliente DECIMAL(16,2);
+
+DECLARE cursor_para_clientes CURSOR FOR 
+	SELECT clientecod, clientenome
+	FROM CLIENTE;
+OPEN cursor_para_clientes
+FETCH NEXT FROM cursor_para_clientes INTO @idcliente, @nomecliente;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	PRINT 'cliente: ' + @nomecliente;
+	SET @totalgeralcliente = 0.00;
+
+	DECLARE cursor_filho_pedidos CURSOR FOR
+		SELECT P.pedidonum, P.pedidovalortotal
+		FROM PEDIDO P
+		WHERE P.clientecod = @idcliente
+	OPEN cursor_filho_pedidos;
+	FETCH NEXT FROM cursor_filho_pedidos INTO @numpedido, @valorpedido;
+	BEGIN
+		PRINT 'pedido: ' + CAST(@numpedido as VARCHAR) +
+		'valor: ' + CAST(@valorpedido AS VARCHAR);
+		SET @totalgeralcliente = @totalgeralcliente + @valorpedido
+	END
+
+CLOSE cursor_filho_pedidos;
+DEALLOCATE cursor_filho_pedidos;
+PRINT 'total acumulado ' + CAST(@totalgeralcliente AS VARCHAR);
+END
+
+CLOSE cursor_para_clientes;
+DEALLOCATE  cursor_para_clientes;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

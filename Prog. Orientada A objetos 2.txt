@@ -1,0 +1,659 @@
+AULA 1
+
+Classes
+
+É um molde (template) do mundo real para utilizar objetos.
+
+Objetos
+
+São as informações ou atributos os indivíduos possuem.
+
+- nome
+- CPF
+- Sexo
+
+* Ações (Métodos) que os objetos poderão executar.
+	ex: sacar em uma conta da classe contas.
+
+* A classe não ocupa espaço na memoria.
+
+public class Pessoa {
+     public String nome;
+     public int CPF;
+	
+     public void falar() {
+	Console.WriteLine($"Olá");
+     }
+}
+
+--------------------------------------
+
+Objetos
+
+É uma instancia de uma classe.
+
+Cada objeto possui estado(atributos) e comportamentos(métodos) definidos a partir de uma classe.
+
+new Pessoa(); -> Objeto vazio instanciado
+
+Pessoa pessoa = new Pessoa();
+
+pessoa.nome = "João";
+
+pessoa.falar();
+
+--------------------------------------
+
+Encapsulamento
+
+Significa proteger os dados internos dos objetos da classe permitindo acesso de forma controlada.
+
+-Facilita manutenções 
+
+Geralmente feito por private, public e propriedades get e set.
+
+class Conta() {
+    private double saldo;
+
+    public void sacar(double valor) {
+	if (saldo - valor >= 0) {
+	     saldo = saldo - valor;
+	}
+}
+
+Conta c = new Conta();
+
+c.Sacar(100);
+
+--------------------------------------
+
+Herança
+
+Permite reaproveitamento de características de uma classe em outra.
+
+class Animal {
+    public void Comer(){
+	Console.WriteLine("Comendo");
+    }
+}
+
+class Cachorro:Animal {
+      public void Latir() {
+	 Console.WriteLine("Latindo");
+      }
+}
+
+Cachorro c = new Cachorro();
+
+c.Latir();
+c.comer();
+
+--------------------------------------
+
+Polimorfismo
+
+Override = Redefine comportamento de método herdado.
+
+Overload = Vários métodos com mesmo nome, porem parâmetros diferentes.
+
+public int Somar(int a, int b) {
+     return a + b;
+}
+
+1. Override (Sobrescrita)
+
+Acontece quando uma classe filha redefine um método da classe pai.
+
+Exemplo:
+
+class Animal {
+    public void emitirSom() {
+        System.out.println("Som genérico");
+    }
+}
+
+class Cachorro extends Animal {
+    @Override
+    public void emitirSom() {
+        System.out.println("Au Au");
+    }
+}
+
+2. Overload (Sobrecarga)
+
+Acontece quando existem vários métodos com o mesmo nome, mas com parâmetros diferentes.
+
+Exemplo:
+
+public class Calculadora {
+
+    public int somar(int a, int b) {
+        return a + b;
+    }
+
+    public int somar(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    public double somar(double a, double b) {
+        return a + b;
+    }
+}
+
+Aqui o compilador escolhe qual método usar antes do programa executar, olhando para os parâmetros.
+
+Exemplo:
+
+Calculadora calc = new Calculadora();
+
+calc.somar(2, 3);         // chama o primeiro
+calc.somar(2, 3, 4);      // chama o segundo
+calc.somar(2.5, 3.5);     // chama o terceiro
+
+--------------------------------------
+
+AULA 2
+
+public abstract class Funcionário {
+	public string Nome{get; set;}
+	public int idade {get; set;}
+}
+
+public class Desenvolvedor : Funcionario{
+	public string linguagem{get; set;}
+}
+
+public class gerente : Funcionário {
+	public int equipe{get; set;}
+}
+
+Funcionário f1 = new desenvolvedor();
+Funcionário f2 = new gerente();
+
+List<Funcionário> f3 = new list<Funcionário>();
+
+f3.add(----------------------);
+
+
+- Recurso avançado de C# para modelagem de dados
+
+Pattern matching
+
+   É um recurso de linguagem C# que permite unificar-se um valor ou objeto corresponde a determinado padrão,
+considerando um tipo, valor ou estrutura.
+
+if (idade > 18) {
+	Console.WriteLine("menor");
+	}
+
+  Conforme programas se tornam complexos as decisões deixam de depender apenas dos valores simples.
+Muitas vezes é preciso avaliar o objeto e suas características.
+
+if (f is desenvolvedor){
+	}
+if (f is gerente){
+}
+
+- Verificação para descobrir o tipo do objeto
+
+  O pattern matching surge para tornar esse tipo de decisão e unificação maior expressiva e segura.
+
+- Esse valor ou objeto corresponde a um determinado padrão?
+
+if (obj is desenvolvedor dev) {
+	dev.Nome;
+}
+
+Pattern com properties
+
+if (obj is Desenvolvedor {idade >= 18}) {
+}
+
+if (obj is desenvolvedor {linguagem: "C#"}) {
+}
+
+if (obj is desenvolvedor {idade >= 18} adulto) {
+	Console.WriteLine($"{adulto.Nome} é maior de idade");
+}
+
+if (obj is desenvolvedor {idade > 18, linguagem: "C#"}) {
+}
+
+- Pattern com switch
+
+string Descrever (Funcionário f) {
+	
+return f switch {
+	desenvolvedor a => $"dev{d.nome} - {d.linguagem}",
+	gerente g => $" gerente {g.nome} - {g.equipe},
+	_ => "Funcionário descontinuado"
+};
+
+---------------------------------------------------------------
+
+AULA 3
+
+Pilhas e filas
+
+Pilha p = new Pilha();
+Fila f = new Fila();
+
+p.push('A");
+p.push('B");
+p.push('C");
+
+f.enqueue(p.top());
+f.enqueue(p.top());
+f.enqueue('D');
+
+p.push(f.dequeue());
+f.enqueue(f.dequeue());
+f.enqueue(p.pop());
+
+p.push('E');
+f.enqueue('E');
+p.pop();
+
+Property Matching
+
+Pattern matching é útil para identificar qual é o tipo de conceito de um objeto.
+Mas também podemos contribuir condições baseadas nas propriedades do objeto.
+
+
+desenvolvedor switch {
+   {idade: < 18} => "Menor Idade",
+   {idade: >= 18} => "Maior de idade"
+};
+
+podemos combinar 
+
+{idade: > 18, nome:"will"} => "_________"
+
+
+Records, Imutabilidade funcional e DTO's
+
+Record é um tipo pensado para representar dados, com comparações por valor e suporte á imutabilidade.
+
+public record Cliente(String nome, string email);
+
+Cliente c1 = new("Joao", "a@b.com");
+Cliente c2 = new("Joao", "a@b.com");
+
+Console.WriteLine(c1 = c2); "true"
+
+com uma classe comum
+
+public class Cliente {
+	public string Nome;
+	public string email;
+}
+
+Cliente c1 = new(Nome = "Joao", email = "a@b.com");
+Cliente c1 = new(Nome = "Joao", email = "a@b.com");
+
+Console.WriteLine(c1 == c2);  "false"
+
+Imutabilidade 
+seja class cliente anterior.
+
+Cliente C = new Cliente();
+c.nome = "joao";
+c.nome = "maria";
+
+O mesmo Objeto c foi alterado com record
+c.nome = "maria"; //era
+
+para gerar uma nova versão;
+
+cliente c2 = c with {
+	Nome = "maria};
+
+agora 
+C -> joao
+c2 -> maria
+
+public record produto (string nome, float preco);
+
+produto p = new produto("notebook", 3000);
+
+produto pdesconto = p with {
+	preco = 2500
+};
+
+-----------------------------------------------------------------
+
+AULA 4
+
+DTO X Entidade
+
+public class Cliente() {
+	public int Id {get; set;}
+	public string Nome {get; set;}
+	public string Senha {get; set;}
+}
+
+essa é a entidade
+
+public record ClienteDTO{
+	string nome,
+	string email
+}
+
+esse é o DTP. representa apenas os dados que queremos transportar
+
+*segurança
+
+Mapeamento
+
+banco de dados -> entidade -> DTO -> API/Apresentação
+
+CREATE TABLE Cliente (
+	Id INT IDENTITY(1,1) PRIMARY KEY,
+	Nome Varchar(100),
+	Idade INT,
+	Senha Varchar(100)
+);
+
+	|
+	v
+
+public class Cliente() {
+	public int Id {get; set;}
+	public string Nome {get; set;}
+	public string Senha {get; set;}
+}
+
+	|
+	v
+
+public record ClienteDTO{
+	string nome,
+	string email
+}
+
+------------------------------------------------------
+
+Performance e alocação eficiente
+
+Pontos importantes:
+	quanto tempo o código leva para executar
+	quanto ele aloca de memória durante a execução
+
+um código que executa milhares(ou milhões) de operações precisa ser especialmente tratado.
+
+alocação
+
+alocar memória significa reservar um espaço na memória do computador para guardar uma informação.
+
+por ex:
+	int idade = 30; -> o programa precisa de memória para armazenar o 30.
+
+essa reserva é uma alocação: o ato de reservar memória para que um dado 
+possa existir durante a execução de um programa.
+
+O problema das alocações:
+
+alocar memória tem custo.
+
+for(int i = 0; i< 1000000; i++ {
+	Cliente C = new Cliente();
+}
+
+estamos pedindo ao sistema para criar 1 milhão de objetos e armazená-los durante o tempo de execução
+
+Garbage collector
+
+cliente c = new cliente() -> cria na memoria
+
+cliente = null -> objeto não é mais utilizado, mas o espaço não precisa ser liberado imediatamente.
+
+O .NET possui o GC que identifica objetos que não estão mais em uso e recupera memória.
+
+alocação -> obj utilizado -> obj deixa de ser executado ->  GC identifica -> memoria liberada.
+
+quando criamos muitos obj, há mais trabalho para o GC e mais "pressão" sobre a memória.
+
+
+Span <T>
+
+é uma forma de enxergar uma região da memória sem precisar criar uma nova coleção
+
+Ex:
+	int[] números = {10,20,30,40,50}
+	span<int> parte = números.AsSpan(1,3);
+	
+teremos:
+
+array original {10,20,30,40,50} ->  Span<int> 20 30 40
+
+O ponto importante: parte não representa um novo espaço alocado na memoria:
+o span é apenas uma "janela" sobre os dados existentes
+
+ex:
+
+string texto ='abc1234';
+
+queremos pegar 123
+
+string parte = texto.substring(3,3);
+
+ 	X
+
+ReadOnlySpan<char> parte = texto.AsSpan(3,3);
+
+----------------------------------------------
+
+AULA 5
+
+Pading
+
+Estratégia para redução de alocações.
+
+Significa reutilizar objetos já alocados, em vez de criar e destruir novos objetos,
+evitando alocações repetidas.
+
+Contexto, exemplo, upload de arquivo de 2GB.
+
+Se enviarmos um arquivo de 2GB a um servidor, ele não precisa ter 2GB de RAM disponíveis
+
+File 2GB -> RAM -> DISCO
+
+Normalmente o server recebe o arquivo progressivamente, em pequenos "Pedaços".
+
+Recebe 64KB e grava disco -> recebe 64KB e grava no disco....
+
+Tipo primitivo byte
+
+byte valor 100;
+byte representa um valor de 0 a 255.
+byte[] buffer = new byte[64 * 1024];
+
+temos um array com espaço para 64KB.
+
+buffer: é uma área temporária de memoria usada para armazenar dados enquanto eles estão sendo transferidos ou processados.
+
+O problema da alocação(de novo)
+
+Se o servidor receber vários uploads simultâneos, cada operação cria um buffer, reservando espaço na memoria.
+
+mais alocação -> mais trabalho para o GB -> menor performance.
+
+sem pading 
+
+Criar -> Usar -> descartar
+criar -> usar -> descartar...
+
+
+Se isso acontece milhares de vezes, temos muitas alocações 
+
+Com pading
+
+o buffer é criado uma vez e depois é reutilizado
+
+ArrayPool <t>
+
+byte[] buffer = ArrayPool<byte>.Shared.Rent(64*1024);
+try {
+	//uso
+} finally {
+	ArrayPool<byte>.Shared.Return(buffer);
+}
+
+Rent() pega um array disponível no pool.
+Return() devolve o array para que possa ser reutilizado.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
