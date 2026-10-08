@@ -75,3 +75,48 @@ column ~> [
  conteiner: criar caixa com estilo, so pode possuir 1 filho
  sizedbox: sem estilo, define altura,largura, espaçamento 
  padding: cria componente intern
+
+-------------------------------------------------------------
+
+Prova
+
+- flutter x dart
+  AOT x Jit
+
+- tipos básicos
+
+- modificador de acesso
+
+- construtor no dart
+
+- oq são widgets
+
+- ciclo de vida
+	stateless
+	statefull
+
+para que serve widget, diferenças quem tem filhos ou filho
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

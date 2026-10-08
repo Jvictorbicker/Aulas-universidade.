@@ -502,158 +502,53 @@ try {
 Rent() pega um array disponível no pool.
 Return() devolve o array para que possa ser reutilizado.
 
+-----------------------------------------------------------------------
 
+AULA 6
 
+Concorrência - Locks e regiões críticas
 
+object bloq = new object();
 
+void sacar(decimal valor) {
 
+	lock(bloq) {
+		decimal lida = saldo;
+		if (lido >= valor)
+			saldo = lida - valor;
+	}
+}
 
+task t1 = task.run(() => sacar(600));
+task t2 = task.run(() => sacar(500));
 
+await task.whenall(t1, t2);
 
+Race condition é uma fila que acontece quando duas ou mais partes 
+de um programa a usam ou modificam o mesmo recurso compartilhando ao mesmo tempo.
 
+Regiao critica é o trecho de codigo que acessa um recurso compartilhado e que
+não pode ser executado simultaneamente por multiplas threads
 
+Exclusão mútua: enquanto uma thread está em uma região crítica, outra precisa esperar:
 
 
+t1---regiao--------------
+t2---------regiao--------
+     espera
 
+o objetivo instanciado é utilizado no lock é acessivel entre as threads
+e serve para sincronizá-las.
+	é possível ter multiplos locks, um para cada recurso compartilhado.
 
+(x) é importante observar que alguns trechos de codigo que usamos com frequencia
+não são atomicos (de atomicidade)
 
+	saldo = saldo + valor;
 
+1 - ler saldo e armazenar em registro temportario
 
+2 - fazer x + valor
 
-
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+3 - atribuir resultado a saldo.
 
