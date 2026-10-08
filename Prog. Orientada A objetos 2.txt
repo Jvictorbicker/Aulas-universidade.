@@ -552,3 +552,43 @@ não são atomicos (de atomicidade)
 
 3 - atribuir resultado a saldo.
 
+deadlock: acontece quando duas ou mais threads ficam esperando umas pelas outras indefinidamente.
+
+starvation: uma tarefa "morre de fome" por nunca conseguir acessar o recurso que precisa
+
+decimal saldoA = 1000;
+decimal saldoB = 1000;
+
+void transFAB(decimal valor) {
+	lock(obj A) {
+		lock (obj B) {
+			saldoA -= valor;
+			saldoB += valor;
+		}
+	}
+}
+
+void transBA(decimal valor) {
+	lock(obj B) {
+		lock(obj A) {
+			saldoB -= valor;
+			saldoA += valor;
+		}
+	}
+}
+
+task t1 = task.run(() => transAB(100));
+
+task t2 = task.run(() => transBA(50));
+
+espera circular
+
+t1 entra na regiao critica de a
+
+T2 entra na regiao critica de b
+
+t1 espera por B
+
+t2 espera por A
+
+deadlock
