@@ -335,145 +335,72 @@ END
 CLOSE cursor_para_clientes;
 DEALLOCATE  cursor_para_clientes;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-------------------------------------------------------------------------
+
+AULA 5
+
+functions
+
+rotina armazenada no banco que recebe zero ou N parametros, realiza um processamento
+e obrigatoriamente retorna um resultado
+
+resultado pode ser:
+
+- unico valor
+- uma tabela
+
+uso: reutilizar rotinas em diferentes resultados
+
+utilizada dentro do SQL
+
+não deve alterar os dados
+
+estrutura 
+
+CREATE FUNCTION nome
+(
+	@parametros TIPO
+)
+returns TIPO
+AS 
+BEGIN
+	-preocssamento
+	return valor
+END;
+
+exemplo:
+
+CREATE FUNCTION dbo.fn_somar
+(
+	@valor1 INT,
+	@valor2 INT
+)
+RETURNS INT
+AS 
+BEGIN
+	DECLARE @resultado INT,
+	SET @resultado = @valor1 + @valor2;
+	RETURN @resultado
+END;
+
+SELECT dbo.fn_somar(20,5) as RESULTADO
+
+exemplo tabela:
+
+CREATE FUNCTION dbo.FN_PedidosPessoas
+(
+	@CodigoPessoa INT
+)
+RETURNS TABLE
+AS 
+BEGIN
+	SELECT 	
+		pedidonum,
+		pedidovalortotal,
+		pedidodatacad
+	FROM pedidos
+	WHERE PessoaID = @CodigoPessoa;
+END;
+
+SELECT *
+FROM dbo.FN_PedidoPessoa(2);
