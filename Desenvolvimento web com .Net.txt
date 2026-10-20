@@ -135,8 +135,27 @@ portrails -> pequenas áreas reutilizáveis
 <partial name="mensagem"
 	model="cadastro reutilizado com sucesso">
 
+-------------------------------------------------------------------------------
 
+AULA 5
 
+Fundamento de persistencia e banco de dados
+
+*persistencia de dados é a capacidade de armazenar e informações permitindo
+que permaneça disponiveis mesmo após o encerramento da aplicação.
+
+*DbContext: Classe central do EF que representa uma sessão de trabalho com o
+banco de dados e coordena consultas, rastreamento de entidade e persistência
+de alterações.
+
+*DbSet: representa um conjunto de entidades de determinado tipo, permitindo
+consultas e realizar operações de persistência sobre elas.
+
+*String de conexão: conjunto de parâmetros utilizados para identificar o 
+servidor, o banco de dados e as opções necessária para estabelecer uma
+conexão.
+
+*Migration: mecanismo utilizado para registrar
 
 
 
