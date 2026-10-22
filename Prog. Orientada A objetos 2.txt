@@ -652,3 +652,22 @@ public class NotificacoesHub : Hub {
 	}
 
 Com o Signal R, o servidor pode enviar uma mensagem ao cliente assim que o evento acontece.
+
+Streaming
+
+Notificação são boas para eventos pontuais. Porém, alguns problemas exigem que o servidor
+transmita uma sequencia de dados durante um período.
+
+Ex: processamento que demora 30 segundos.
+	- ou avisa que so inicia e acabou
+	- ou mostra uma barra de progresso em "tempo real"
+
+O streaming do Signal R permite o server produzir valores progressivamente
+e que o cliente os consuma a medida que chegam
+
+Streaming significa transmitir dados conforme eles ficam disponiveis, sem precisar esperar que
+todo o conteudo fique pronto.
+
+O Signal R cuida da infraestrutura de conexões. nós programadores cuidadamos do comportamento da aplicação
+quem deve receber cada mensagem e o que fazer quando alguem se conecta ou desconectar.
+
