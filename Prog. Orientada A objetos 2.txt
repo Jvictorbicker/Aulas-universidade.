@@ -592,3 +592,63 @@ t1 espera por B
 t2 espera por A
 
 deadlock
+
+quando possivel, quando uma aplicação precisar acoplar multiplos locks,
+todas as threads devem adquiri-los em ordem.
+
+-------------------------------------------------------------------------------------
+
+AULA 7
+
+Signal R e comunicação em tempo real no .NET: Notificação e Streaming
+
+Situação: Dois funcionarios visualizando uma lista de pagamentos em um sistema.
+
+Um deles atualiza um pagamento. Como o outro fica sabendo?
+
+Signal R e arquitetura
+
+conceitos:
+	- Cliente: navegador, aplicativo, etc.
+	- Servidor: aplicação, ASP.NET Core, que gerencia a comunicação.
+	- Hub: ponto de comunicações entre clientes e servidores.
+	- Conexão: canal de comunicações entre C e s
+	- Transporte: mecanismo utilizado para transporte de dados como os websockets.
+
+Signal R não elimina HTTP Requests.
+
+Hub: o que é e como funciona?
+
+	O hub é uma classe C# que funciona como ponto de comunicação entre os clientes e app
+ASP.NET Core.
+
+	- O cliente invoca um método da Hub, enviando informações ao servidor
+	- O servidor envia eventos dos clientes conectados, sem precisar aguardar um HTTP Request convencional
+
+clientes
+				_________
+[] <---------> [         ]
+[] <---------> [   Hub   ] <-> Server
+[] <---------> [_________]
+
+HTTP Request: cliente solicita, server responde.
+
+Notificações: Server pode enviar para diferentes destinatários.
+
+	Clients.All -> Todos
+	Clients.Caller -> quem chamou
+	Clients.Others -> Outros
+	Clients.Group("Financeiro") -> de um grupo
+
+public class NotificacoesHub : Hub {
+	public async Task AvisarPagamento(int id) {
+		await Clients.Others.SendAsync(
+			"Pagamento Aprovado", id
+		);
+	}
+}
+	conecction.one("Pagamento Aprovado", id=>) {
+		//faz algo
+	}
+
+Com o Signal R, o servidor pode enviar uma mensagem ao cliente assim que o evento acontece.
