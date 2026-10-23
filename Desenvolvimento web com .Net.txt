@@ -155,7 +155,8 @@ consultas e realizar operações de persistência sobre elas.
 servidor, o banco de dados e as opções necessária para estabelecer uma
 conexão.
 
-*Migration: mecanismo utilizado para registrar
+*Migration: mecanismo utilizado para registrar e aplicar alterações na estrutura
+do banco de dados conforme o modelo de aplicação evolui.
 
 
 

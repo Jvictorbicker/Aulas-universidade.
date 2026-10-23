@@ -404,3 +404,39 @@ END;
 
 SELECT *
 FROM dbo.FN_PedidoPessoa(2);
+
+------------------------------------------------------------------------------
+
+Aula 6
+
+views
+
+- Objeto do BD que armazena a diferenca de uma consulta. Podemos considerar como
+uma tabela virtual
+
+- Para que serve
+	- Esconder dealhes da estrutura da tabela
+	- Criar uma camada de abstração da aplicação
+
+- Composição
+	Procedure -> executar uma rotina
+	Functions -> retornar um valor na tabela
+	View -> representa uma consulta armazenada
+
+- View nao recebe parametros
+
+Ex:
+CREATE dbo.view_Pedidos
+AS
+SELECT PED.PedidoNum,
+	   PED.pedidodatacad,
+	   PED.PedidoValorTotal,
+	   P.PessoaCad,
+	   p.PessoaNome
+
+FROM PEDIDO PED, PESSOA p
+WHERE PED.PessoaCad = P.PessoaCad;
+
+SELECT *
+FROM dbo.view_Pedidos
+WHERE PedidoValorTotal >= 300;
